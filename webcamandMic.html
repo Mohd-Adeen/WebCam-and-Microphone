@@ -1,0 +1,117 @@
+<!--The project which can access webcam and microphone-->
+<!--Its only the frontend, which means the video recording cant be safe in a file-->
+<!--Use it for fun-->
+<!--May be Webcam quality will be poor-->
+
+<!--Start of HTML code-->
+<!DOCTYPE html>
+<html lang="en-US">
+
+    <!-- Start of Head Tag -->
+    <head>
+
+        <!--Title and meta tags-->
+        <title>WebCam & Microphone</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial scale=1.0">
+        <meta name="description" content="This project will access webcam and microphone">
+        <meta name="author" content="Ansari Mohammed Adeen">
+        <meta name="keywords" content="Webcam, mic, microphone, webcam and mic, microphone and webcam">
+
+        <!-- JQuery Library Link for Icons-->
+        <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js"></script>
+
+        <!-- CSS for this Project -->
+        <style>
+            .webcam {
+                display: flex; align-items: center; justify-content: center; height: 90vh; 
+            }
+            .webcam-control > a {
+                text-decoration: none; color: #000; background: #0071e3; padding: 10px 50px; margin: 10px; border-radius: 5px;
+            }
+            .webcam-control a:hover {
+                box-shadow: 1px 1px 2px #f9f9f9; color: #000; 
+            }
+        </style>
+        <!-- End of Css -->
+    
+    </head>
+    <!-- End of Head Tag-->
+
+    <!--Start of Body Tag -->
+    <body>
+
+        <!--Webcam code-->
+        <div class="webcam">
+            <div class="video">
+                <video id="video" autoplay></video>
+            </div>
+
+            <!-- Start and Stop Button -->
+            <div class="webcam-control">
+                <a href="#!" class="btn-start" onclick="start()">
+                    <i class="fas fa-camera"></i>
+                </a> 
+                <a href="#!" class="btn-stop" onclick="stop()">
+                    <i class="fas fa-stop-circle"></i>
+                </a>
+            </div>
+            <!-- End of Code -->
+        </div>
+
+        <!--Microphone code-->
+        <audio id="audio"></audio>
+
+        <!--Microphone JavaScript-->
+        <script>
+            var constraints = { audio : true };
+
+            navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) { 
+
+                var audio = document.querySelector("#audio");
+                audio.srcObject = mediaStream;
+                audio.onloadedmetadata = () => {
+                    audio.play();
+                };
+            })
+            .catch((err) => console.log(err.name + ":" + err.message));
+        </script>
+        
+
+        <!-- JavaScript Code for the Webcam -->
+        <script>
+            //stop button code
+            var stop = function() {
+                var stream = video.srcObject;
+                var tracks = stream.getTracks();
+
+                for ( var i = 0; i < tracks.length; i++) {
+                    var track = tracks[i];
+                    track.stop();
+                }
+                video.srcObject = null;
+            }
+
+            //start button code 
+            var start = function() {
+                var video = document.getElementById("video");
+                vendorURL = window.URL || window.webkitURL;
+
+                if ( navigator.mediaDevices.getUserMedia) {
+                    navigator.mediaDevices.getUserMedia({ video : true})
+                    .then(function(stream) {
+                        video.srcObject = stream;
+                    }).catch(function(error) {
+                        console.log("SomeThing Went Wrong");
+                    });
+                }
+            }
+
+            //start function 
+            $(function () { start(); });
+        </script>
+        <!-- End of JS Scripting-->
+    
+    </body>
+    <!-- End of Body Tag -->
+
+</html>
+<!--End of HTML Code-->
